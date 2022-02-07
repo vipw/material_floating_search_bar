@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     hide ImplicitlyAnimatedWidget, ImplicitlyAnimatedWidgetState;
 import 'package:flutter/services.dart';
@@ -595,8 +596,13 @@ class FloatingSearchBarState
     transition.searchBar = this;
     body = widget.builder(context, animation);
 
+    bool macLand = false;
+    if (!kIsWeb) {
+      macLand = Platform.isIOS | Platform.isMacOS;
+    }
+
     final searchBar = SizedBox.expand(
-      child: (Platform.isIOS | Platform.isMacOS)
+      child: macLand
           ? _getSearchBarWidget()
           : WillPopScope(
         onWillPop: _onPop,
